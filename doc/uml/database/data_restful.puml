@@ -1,0 +1,115 @@
+@startuml
+
+package "Microservice" {
+    package "Authentication" {
+        class JwtAuthController {
+            + loginRest(loginRequest: LoginRequestDto): Promise
+            + getProtectedDataRest(): Promise
+            + getProfileRest(): Promise
+            + logoutRest(): Promise
+        }
+    }
+
+    package "User" {
+        class UserController {
+            + createUserRest(createUserRequest: CreateUserRequestDto): UserResponseDto
+            + listUsersRest(): [UserResponseDto]
+            + getUserRest(UUID: ID): UserResponseDto
+            + updateUserRest(UUID: ID, updateUserRequest: UpdateUserRequestDto): UserResponseDto
+            + getUserByUsernameRest(username: string): UserResponseDto
+            + getUserByEmailRest(email: string): UserResponseDto
+            + deleteUserRest(UUID: ID): UserResponseDto
+        }
+    }
+
+    package "Hello" {
+        class HelloController {
+            + getHelloStringRest(): HelloStringResponseDto
+            + getHelloJsonRest(): HelloJsonResponseDto
+        }
+    }
+
+    package "Health" {
+        class HealthController {
+            + health(service: string): HealthResponseDto
+            + isHealthy(service: string): HealthResponseDto
+        }
+    }
+
+    class LoginRequestDto {
+        - username: string
+        - password: string
+    }
+
+    class Promise
+
+    class CreateUserRequestDto {
+        - UUID: ID
+        - lastName: string
+        - firstName: string
+        - role: string
+        - dateOfBirth: string
+        - email: string
+        - phoneNumber: string
+        - username: string
+        - password: string
+    }
+
+    class UserResponseDto {
+        - UUID: ID
+        - lastName: string
+        - firstName: string
+        - role: string
+        - dateOfBirth: string
+        - email: string
+        - phoneNumber: string
+        - username: string
+        - password: string
+        - createTimestamp: string
+        - updateTimestamp: string
+    }
+
+    class UpdateUserRequestDto {
+        - lastName: string
+        - firstName: string
+        - role: string
+        - dateOfBirth: string
+        - email: string
+        - phoneNumber: string
+        - username: string
+        - password: string
+    }
+
+    class HelloStringResponseDto
+
+    class DataDto {
+        - message: string
+    }
+
+    class HelloJsonResponseDto {
+        - data: DataDto
+    }
+
+    class HealthResponseDto {
+        - status: string
+        - message: string
+    }
+
+    JwtAuthController --> LoginRequestDto
+    JwtAuthController --> Promise
+    UserController --> CreateUserRequestDto
+    UserController --> UserResponseDto
+    UserController --> UpdateUserRequestDto
+    UserController --> UserResponseDto
+    UserController --> UserResponseDto
+    UserController --> UserResponseDto
+    UserController --> UserResponseDto
+    UserController --> UserResponseDto
+    UserController --> UserResponseDto
+    HelloController --> HelloStringResponseDto
+    HelloController --> HelloJsonResponseDto
+    HealthController --> HealthResponseDto
+    HealthController --> HealthResponseDto
+}
+
+@enduml
